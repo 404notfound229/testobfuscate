@@ -23,7 +23,7 @@ if currentTime > expireUnix then
 else
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = isDeveloper and "✅ Developer Access" or "✅ Free Access",
-        Text = isDeveloper and "Welcome back, developer!" or "Hello,Free User Sexy!",
+        Text = isDeveloper and "Welcome back, developer!" or "WSP SEXY NIGGA",
         Duration = 5
     })
 end
