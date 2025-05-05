@@ -23,7 +23,7 @@ if currentTime > expireUnix then
 else
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = isDeveloper and "✅ Developer Access" or "✅ Free Access",
-        Text = isDeveloper and "Welcome back, developer!" or "Wsp swaggy boy!",
+        Text = isDeveloper and "Welcome back, developer!" or "Enjoy Free Script!",
         Duration = 5
     })
 end
@@ -42,6 +42,7 @@ local dmgEnabled = true
 local visualizerEnabled = false
 local walkSpeedEnabled = false
 local spinEnabled = false
+local invisibleEnabled = false
 local desiredSpeed = 80
 
 -- Создание визуализатора
@@ -63,7 +64,7 @@ ScreenGui.ResetOnSpawn = false
 local Frame = Instance.new("Frame", ScreenGui)
 Frame.AnchorPoint = Vector2.new(0, 0.5)
 Frame.Position = UDim2.new(0, 10, 0.5, 0)
-Frame.Size = UDim2.new(0, 300, 0, 300)
+Frame.Size = UDim2.new(0, 305, 0, 355)
 Frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 Frame.BorderSizePixel = 4
 
@@ -88,6 +89,15 @@ Frame.InputBegan:Connect(function(input)
 		end)
 	end
 end)
+
+
+
+
+
+
+
+
+
 
 Frame.InputChanged:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseMovement then
@@ -166,9 +176,15 @@ createLabel("Spin:", UDim2.new(0, 0, 0.70, 0))
 local spinToggle, spinFill = createToggle(UDim2.new(0.725, 0, 0.70, 0), spinEnabled)
 
 
+
+createLabel("Invisible:", UDim2.new(0, 0, 0.83, 0))
+local invisToggle, invisFill = createToggle(UDim2.new(0.725, 0, 0.83, 0), invisibleEnabled)
+
+
+
 -- Close GUI
 local CloseBtn = Instance.new("TextButton", Frame)
-CloseBtn.Position = UDim2.new(0, 0, 0.85, 0)
+CloseBtn.Position = UDim2.new(0, 0, 0.90, 0)
 CloseBtn.Size = UDim2.new(1, 0, 0.12, 0)
 CloseBtn.Text = "Close GUI (R)"
 CloseBtn.TextScaled = true
@@ -241,6 +257,65 @@ speedToggle.InputBegan:Connect(function(inp)
 		updateWalkSpeed()
 	end
 end)
+
+
+
+
+invisToggle.InputBegan:Connect(function(inp)
+	if inp.UserInputType == Enum.UserInputType.MouseButton1 then
+		invisibleEnabled = not invisibleEnabled
+		local goal = invisibleEnabled and UDim2.new(1,0,1,0) or UDim2.new(0,0,0,0)
+		game.TweenService:Create(invisFill, TweenInfo.new(0.12), {Size = goal}):Play()
+
+		if invisibleEnabled then
+			local plr = game.Players.LocalPlayer
+			local savedpos = plr.Character.HumanoidRootPart.CFrame
+			task.wait()
+			plr.Character:MoveTo(Vector3.new(-25.95, 84, 3537.55))
+			task.wait(0.15)
+
+			local Seat = Instance.new("Seat")
+			Seat.Anchored = false
+			Seat.CanCollide = false
+			Seat.Name = "invischair"
+			Seat.Transparency = 1
+			Seat.Position = Vector3.new(-25.95, 84, 3537.55)
+			Seat.Parent = workspace
+
+			local torso = plr.Character:FindFirstChild("Torso") or plr.Character:FindFirstChild("UpperTorso")
+			local weld = Instance.new("Weld")
+			weld.Part0 = Seat
+			weld.Part1 = torso
+			weld.Parent = Seat
+
+			task.wait()
+			Seat.CFrame = savedpos
+
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Invis On";
+				Duration = 1;
+				Text = "";
+			})
+		else
+			local chair = workspace:FindFirstChild("invischair")
+			if chair then chair:Destroy() end
+
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Invis Off";
+				Duration = 1;
+				Text = "";
+			})
+		end
+	end
+end)
+
+
+
+
+
+
+
+
 
 
 local bav -- BodyAngularVelocity
